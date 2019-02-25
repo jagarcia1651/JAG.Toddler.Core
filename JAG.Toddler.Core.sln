@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JAG.Toddler.Core", "JAG.Toddler.Core\JAG.Toddler.Core.csproj", "{6E9036B8-6AFB-48F4-8250-4E86FE92A67D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E9036B8-6AFB-48F4-8250-4E86FE92A67D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E9036B8-6AFB-48F4-8250-4E86FE92A67D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E9036B8-6AFB-48F4-8250-4E86FE92A67D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E9036B8-6AFB-48F4-8250-4E86FE92A67D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E70DBDF1-3942-4362-AEE8-0D0997F16FFF}
+	EndGlobalSection
+EndGlobal
