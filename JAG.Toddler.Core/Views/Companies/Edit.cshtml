@@ -1,0 +1,79 @@
+﻿@model JAG.Toddler.Core.Models.Default.Companies
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Companies</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CompanyId" />
+            <div class="form-group">
+                <label asp-for="Company" class="control-label"></label>
+                <input asp-for="Company" class="form-control" />
+                <span asp-validation-for="Company" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartFiscalYear" class="control-label"></label>
+                <input asp-for="StartFiscalYear" class="form-control" />
+                <span asp-validation-for="StartFiscalYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Owner" class="control-label"></label>
+                <input asp-for="Owner" class="form-control" />
+                <span asp-validation-for="Owner" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComAddress1" class="control-label"></label>
+                <input asp-for="ComAddress1" class="form-control" />
+                <span asp-validation-for="ComAddress1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComAddess2" class="control-label"></label>
+                <input asp-for="ComAddess2" class="form-control" />
+                <span asp-validation-for="ComAddess2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComCity" class="control-label"></label>
+                <input asp-for="ComCity" class="form-control" />
+                <span asp-validation-for="ComCity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComState" class="control-label"></label>
+                <input asp-for="ComState" class="form-control" />
+                <span asp-validation-for="ComState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComZip" class="control-label"></label>
+                <input asp-for="ComZip" class="form-control" />
+                <span asp-validation-for="ComZip" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OwnerPhone" class="control-label"></label>
+                <input asp-for="OwnerPhone" class="form-control" />
+                <span asp-validation-for="OwnerPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConsultId" class="control-label"></label>
+                <select asp-for="ConsultId" class="form-control" asp-items="ViewBag.ConsultId"></select>
+                <span asp-validation-for="ConsultId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

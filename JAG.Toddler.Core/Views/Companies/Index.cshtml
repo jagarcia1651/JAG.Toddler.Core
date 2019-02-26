@@ -1,0 +1,89 @@
+﻿@model IEnumerable<JAG.Toddler.Core.Models.Default.Companies>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Company)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartFiscalYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Owner)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComAddress1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComAddess2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComZip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OwnerPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Consult)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartFiscalYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Owner)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComAddress1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComAddess2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComZip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Consult.ConsultId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CompanyId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CompanyId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CompanyId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

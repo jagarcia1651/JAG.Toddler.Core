@@ -1,0 +1,31 @@
+﻿@model JAG.Toddler.Core.Models.Planning
+@{
+    ViewData["Title"] = "Planning";
+}
+
+<h1>Planning</h1>
+@Html.DropDownListFor(s => Model.SelectedCompanyId, new SelectList(Model.StoreList, "CompanyId", "StoreName"), "Select Store", new { id = "storeSelect" })
+@Html.DropDownListFor(c => Model.SelectedClassId, new SelectList(Model.ClassList, "ClassId", "Classes"), "Select Class", new { id = "classSelect" })
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#storeSelect").change(function () {
+
+            var companyId = $("#storeSelect").val().toString();
+
+            $.getJSON("/Planning/GETClassList?companyId=" + companyId, function (data) {
+
+                var classSelect = $("#classSelect");
+                classSelect.empty();
+
+                $.each(data, function (index, value) {
+                    classSelect.append(
+                        $('<option></option>').val(value.classId).html(value.classes)
+                    );
+                });
+
+            });
+
+        });
+    });
+</script>
