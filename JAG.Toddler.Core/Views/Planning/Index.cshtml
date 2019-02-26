@@ -4,28 +4,61 @@
 }
 
 <h1>Planning</h1>
-@Html.DropDownListFor(s => Model.SelectedCompanyId, new SelectList(Model.StoreList, "CompanyId", "StoreName"), "Select Store", new { id = "storeSelect" })
-@Html.DropDownListFor(c => Model.SelectedClassId, new SelectList(Model.ClassList, "ClassId", "Classes"), "Select Class", new { id = "classSelect" })
+
+@Html.TextBoxFor(model => Model.PlanDate, "{0:MM/dd/yyyy}", new { id = "dateSelect" })
+@Html.DropDownListFor(model => Model.SelectedStoreId, new SelectList(Model.StoreList, "StoreId", "StoreName"), "Select Store", new { id = "storeSelect" })
+@Html.DropDownListFor(model => Model.SelectedClassId, new SelectList(Model.ClassList, "ClassId", "Classes"), "Select Class", new { id = "classSelect" })
+<button type="button" id="populate">Populate</button>
 
 <script type="text/javascript">
     $(document).ready(function () {
+
+        //Used to populate class list upon selecting a store
         $("#storeSelect").change(function () {
 
-            var companyId = $("#storeSelect").val().toString();
+            var selectedStoreId = $("#storeSelect").val().toString();
 
-            $.getJSON("/Planning/GETClassList?companyId=" + companyId, function (data) {
+            $.getJSON("/Planning/GETClassList",
+                {
+                    storeId: selectedStoreId
+                },
+                function (data) {
+                    var classSelect = $("#classSelect");
+                    classSelect.empty();
 
-                var classSelect = $("#classSelect");
-                classSelect.empty();
+                    $.each(data, function (index, value) {
+                        classSelect.append(
+                            $('<option></option>').val(value.classId).html(value.classes)
+                        );
+                    });
 
-                $.each(data, function (index, value) {
-                    classSelect.append(
-                        $('<option></option>').val(value.classId).html(value.classes)
-                    );
                 });
 
-            });
+        });
+
+        $("#populate").click(function () {
+            var selectedPlanDate = $("#dateSelect").val().toString();
+            console.log(selectedPlanDate);
+            var selectedStoreId = $("#storeSelect").val().toString();
+            console.log(selectedStoreId);
+            var selectedClassId = $("#classSelect").val().toString();
+            console.log(selectedClassId);
+
+            $.getJSON("/Planning/GETLogEntries",
+                {
+                    planDate: selectedPlanDate,
+                    storeId: selectedStoreId,
+                    classId: selectedClassId
+                },
+                function (data) {
+                    $.each(data, function (index, value) {
+                        console.log(value);
+                    });
+                });
 
         });
+
+        //Ads jqueryUI calendar popup to dateSelect
+        $("#dateSelect").datepicker();
     });
 </script>

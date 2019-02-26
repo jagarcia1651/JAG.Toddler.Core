@@ -11,11 +11,17 @@ namespace JAG.Toddler.Core.Models
         public Planning()
         {
         }
+        public DateTime PlanDate { get; set; }
 
         public IEnumerable<Stores> StoreList { get; set; }
-        public int? SelectedCompanyId { get; set; }
+        public int? SelectedStoreId { get; set; }
 
-        public IEnumerable<Classifications> ClassList {get; set;}
+        public IEnumerable<Classifications> ClassList { get; set; }
         public int? SelectedClassId { get; set; }
+
+        public IEnumerable<LogEntries> TwoPriorYear { get; set; }
+        public IEnumerable<LogEntries> PriorYear { get; set; }
+        public IEnumerable<LogEntries> CurrentYear { get; set; }
+        public IEnumerable<LogEntries> NextYear { get; set; }
     }
 }
