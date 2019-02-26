@@ -70,20 +70,45 @@ namespace JAG.Toddler.Core.Controllers
         [HttpGet]
         public ActionResult GETLogEntries(DateTime planDate, int storeId, int classId)
         {
-            Planning planningModel = new Planning();
-
-            planningModel.PlanDate = new DateTime(planDate.Year, planDate.Month, 1, 0, 0, 0);
-            planningModel.SelectedStoreId = storeId;
-            planningModel.SelectedClassId = classId;
+            Planning planningModel = new Planning
+            {
+                PlanDate = new DateTime(planDate.Year, planDate.Month, 1, 0, 0, 0),
+                SelectedStoreId = storeId,
+                SelectedClassId = classId
+            };
 
             planningModel.TwoPriorYear = _context.LogEntries
                 .Where(l => l.ClassId == planningModel.SelectedClassId)
                 .Where(l => l.StoreId == planningModel.SelectedStoreId)
-                .Where(l => l.LogDate < planningModel.PlanDate && l.LogDate > planningModel.PlanDate)
+                .Where(l => l.LogDate >= planningModel.PlanDate.AddMonths(-36) && l.LogDate < planningModel.PlanDate.AddMonths(-24))
                 .OrderBy(l => l.LogDate)
                 .AsNoTracking()
                 .ToList();
-                
+
+            planningModel.PriorYear = _context.LogEntries
+                .Where(l => l.ClassId == planningModel.SelectedClassId)
+                .Where(l => l.StoreId == planningModel.SelectedStoreId)
+                .Where(l => l.LogDate >= planningModel.PlanDate.AddMonths(-24) && l.LogDate < planningModel.PlanDate.AddMonths(-12))
+                .OrderBy(l => l.LogDate)
+                .AsNoTracking()
+                .ToList();
+
+            planningModel.CurrentYear = _context.LogEntries
+                .Where(l => l.ClassId == planningModel.SelectedClassId)
+                .Where(l => l.StoreId == planningModel.SelectedStoreId)
+                .Where(l => l.LogDate >= planningModel.PlanDate.AddMonths(-12) && l.LogDate < planningModel.PlanDate)
+                .OrderBy(l => l.LogDate)
+                .AsNoTracking()
+                .ToList();
+
+            planningModel.NextYear = _context.LogEntries
+                .Where(l => l.ClassId == planningModel.SelectedClassId)
+                .Where(l => l.StoreId == planningModel.SelectedStoreId)
+                .Where(l => l.LogDate >= planningModel.PlanDate && l.LogDate < planningModel.PlanDate.AddMonths(12))
+                .OrderBy(l => l.LogDate)
+                .AsNoTracking()
+                .ToList();
+
             return Json(planningModel);
         }
     }

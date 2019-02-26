@@ -1,0 +1,15 @@
+﻿Views:
+
+	Planning:
+
+		I want to move the jquery to a separate file.
+
+Models: 
+
+	Planning:
+	
+		I want to remove the selectList properties from the planning model as they aren't really part of the model.  This will require modifying the controller as well.
+
+CDNs:
+
+	Need to ensure i'm including all libraries I am using in production/development under appropriate environment tags in _layout.
