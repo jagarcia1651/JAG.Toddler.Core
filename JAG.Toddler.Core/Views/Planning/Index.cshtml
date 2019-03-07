@@ -4,31 +4,7 @@
     ViewData["Title"] = "Planning Screen";
 }
 <h1>Planning</h1>
-<table>
-    <tbody>
-        <tr id="month">
-            <th>Month</th>
-        </tr>
-        <tr id="sales-TwoPriorYear">
-            <th>Sales 2 Years Prior</th>
-        </tr>
-        <tr id="sales-PriorYear">
-            <th>Sales Prior Year</th>
-        </tr>
-        <tr id="sales-CurrentYear">
-            <th>Sales Current Year</th>
-        </tr>
-        <tr id="sales-PercentChange">
-            <th>Percent Change</th>
-        </tr>
-        <tr id="salesPlan-CurrentYear">
-            <th></th>
-        </tr>
-        <tr id="salesPlan-NextYear">
-            <th>SALES PLAN</th>
-        </tr>
-    </tbody>
-</table>
+
 @Html.TextBoxFor(model => Model.PlanDate, "{0:MM/dd/yyyy}", new { id = "dateSelect" })
 @Html.DropDownListFor(model => Model.SelectedStoreId, new SelectList(Model.StoreList, "StoreId", "StoreName"), "Select Store", new { id = "storeSelect" })
 @Html.DropDownListFor(model => Model.SelectedClassId, new SelectList(Model.ClassList, "ClassId", "Classes"), "Select Class", new { id = "classSelect" })
@@ -56,33 +32,6 @@
                         );
                     });
 
-                });
-
-        });
-
-        //Used to populate class history based on date, store and class selections.
-        $("#populate").click(function () {
-            var selectedPlanDate = $("#dateSelect").val().toString();
-            var selectedStoreId = $("#storeSelect").val().toString();
-            var selectedClassId = $("#classSelect").val().toString();
-
-            $.getJSON("/Planning/GETLogEntries",
-                {
-                    planDate: selectedPlanDate,
-                    storeId: selectedStoreId,
-                    classId: selectedClassId
-                },
-                function (data) {
-                    console.log(data);
-                    for (let i = 0; i < 12; i++) {
-                        $("#month").append("<td> " + data.currentYear[i].logDate.toString() + " <td>");
-                        $("#sales-TwoPriorYear").append("<td> " + data.twoPriorYear[i].sales.toString() + " <td>");
-                        $("#sales-PriorYear").append("<td> " + data.priorYear[i].sales.toString() + " <td>");
-                        $("#sales-CurrentYear").append("<td> " + data.currentYear[i].sales.toString() + " <td>");
-                        $("#sales-PercentChange").append("<td> " + ((data.currentYear[i].sales - data.priorYear[i].sales) / data.currentYear[i].sales).toString() + " <td>");
-                        $("#salesPlan-CurrentYear").append("<td> " + data.currentYear[i].salesPlan.toString() + " <td>");
-                        $("#salesPlan-NextYear").append("<td> " + data.nextYear[i].salesPlan.toString() + " <td>");
-                    }
                 });
 
         });

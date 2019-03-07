@@ -36,8 +36,7 @@ namespace JAG.Toddler.Core
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            var connection = @"Server=.;Database=JAG.Toddler.Database;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<JAGToddlerDatabaseContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<JAGToddlerDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Database")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

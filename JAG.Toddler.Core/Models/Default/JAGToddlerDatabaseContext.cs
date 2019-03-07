@@ -28,11 +28,7 @@ namespace JAG.Toddler.Core.Models.Default
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.;Database=JAG.Toddler.Database;Trusted_Connection=True;");
-            }
+            //Here was an instance where the options were configured if they were not in Startup.cs.
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

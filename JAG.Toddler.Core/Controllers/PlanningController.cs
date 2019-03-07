@@ -5,7 +5,6 @@ using JAG.Toddler.Core.Models.Default;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using JAG.Toddler.Core.Models;
-using Newtonsoft.Json;
 using System;
 
 namespace JAG.Toddler.Core.Controllers
@@ -22,18 +21,20 @@ namespace JAG.Toddler.Core.Controllers
         // GET: Planning
         //Parameters: None
         //Description: Navigates to the Planning view and provides a list of stores to populate dropdown.
+        [HttpGet]
+        [ActionName ("Planning")]
         public async Task<IActionResult> Index()
         {
-            Planning planningModel = new Planning
-            {
+            Planning planningModel = new Planning{
+
                 PlanDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0),
 
                 StoreList = await _context.Stores
-                    .OrderBy(s => s.StoreName)
-                    .AsNoTracking()
-                    .ToListAsync(),
+                .OrderBy(s => s.StoreName)
+                .AsNoTracking()
+                .ToListAsync(),
 
-                ClassList = new List<Classifications>()
+                ClassList = new List<Classifications>(),
             };
 
             return View(planningModel);
@@ -64,52 +65,18 @@ namespace JAG.Toddler.Core.Controllers
             return Json(ClassList);
         }
 
-        //GET: Planning/GETLogEntries
+        // GET: Planning
         //Parameters: DateTime{planDate}, int{storeId}, int{classId}
-        //Description: Returns the info to populate class history and plans.
+        //Description: Navigates to the Planning view and provides a list of stores to populate dropdown.
         [HttpGet]
-        public ActionResult GETLogEntries(DateTime planDate, int storeId, int classId)
+        [ActionName("PopulatePlanning")]
+        public async Task<IActionResult> Index(DateTime planDate, int storeId, int classId)
         {
-            Planning planningModel = new Planning
-            {
-                PlanDate = new DateTime(planDate.Year, planDate.Month, 1, 0, 0, 0),
-                SelectedStoreId = storeId,
-                SelectedClassId = classId
-            };
+            Planning planningModel = new Planning();
 
-            planningModel.TwoPriorYear = _context.LogEntries
-                .Where(l => l.ClassId == planningModel.SelectedClassId)
-                .Where(l => l.StoreId == planningModel.SelectedStoreId)
-                .Where(l => l.LogDate >= planningModel.PlanDate.AddMonths(-36) && l.LogDate < planningModel.PlanDate.AddMonths(-24))
-                .OrderBy(l => l.LogDate)
-                .AsNoTracking()
-                .ToList();
+            planningModel
 
-            planningModel.PriorYear = _context.LogEntries
-                .Where(l => l.ClassId == planningModel.SelectedClassId)
-                .Where(l => l.StoreId == planningModel.SelectedStoreId)
-                .Where(l => l.LogDate >= planningModel.PlanDate.AddMonths(-24) && l.LogDate < planningModel.PlanDate.AddMonths(-12))
-                .OrderBy(l => l.LogDate)
-                .AsNoTracking()
-                .ToList();
-
-            planningModel.CurrentYear = _context.LogEntries
-                .Where(l => l.ClassId == planningModel.SelectedClassId)
-                .Where(l => l.StoreId == planningModel.SelectedStoreId)
-                .Where(l => l.LogDate >= planningModel.PlanDate.AddMonths(-12) && l.LogDate < planningModel.PlanDate)
-                .OrderBy(l => l.LogDate)
-                .AsNoTracking()
-                .ToList();
-
-            planningModel.NextYear = _context.LogEntries
-                .Where(l => l.ClassId == planningModel.SelectedClassId)
-                .Where(l => l.StoreId == planningModel.SelectedStoreId)
-                .Where(l => l.LogDate >= planningModel.PlanDate && l.LogDate < planningModel.PlanDate.AddMonths(12))
-                .OrderBy(l => l.LogDate)
-                .AsNoTracking()
-                .ToList();
-
-            return Json(planningModel);
+            return View(planningModel);
         }
     }
 }
