@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using JAG.Toddler.Core.Models.Default;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using JAG.Toddler.Core.Models;
+using JAG.Toddler.Core.ViewModels;
 using System;
 
 namespace JAG.Toddler.Core.Controllers
 {
+    //#TODO
+    //Resolve action types on controller  methods.
     public class PlanningController : Controller
     {
         private readonly JAGToddlerDatabaseContext _context;
@@ -19,25 +21,13 @@ namespace JAG.Toddler.Core.Controllers
         }
 
         // GET: Planning
-        //Parameters: None
+        //Parameters: JAGToddlerDatabaseContext{context}
         //Description: Navigates to the Planning view and provides a list of stores to populate dropdown.
-        [HttpGet]
-        [ActionName ("Planning")]
         public async Task<IActionResult> Index()
         {
-            Planning planningModel = new Planning{
+            PlanningViewModel planningViewModel = new PlanningViewModel(_context);
 
-                PlanDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0),
-
-                StoreList = await _context.Stores
-                .OrderBy(s => s.StoreName)
-                .AsNoTracking()
-                .ToListAsync(),
-
-                ClassList = new List<Classifications>(),
-            };
-
-            return View(planningModel);
+            return View(planningViewModel);
         }
 
         //GET: Planning/GETClassList
@@ -46,6 +36,8 @@ namespace JAG.Toddler.Core.Controllers
         [HttpGet]
         public ActionResult GETClassList(int storeId)
         {
+            //#TODO
+            //This same sequence exists in the PopulatePlanning constructor.  Should I wrap it, and if so where should that method live?
             int? companyId = _context.Stores
                 .Find(storeId)
                 .CompanyId;
@@ -66,17 +58,14 @@ namespace JAG.Toddler.Core.Controllers
         }
 
         // GET: Planning
-        //Parameters: DateTime{planDate}, int{storeId}, int{classId}
+        //Parameters: JAGToddlerDatabaseContext{context}, DateTime{planDate}, int{storeId}, int{classId}
         //Description: Navigates to the Planning view and provides a list of stores to populate dropdown.
         [HttpGet]
-        [ActionName("PopulatePlanning")]
-        public async Task<IActionResult> Index(DateTime planDate, int storeId, int classId)
+        public async Task<IActionResult> Populate(DateTime SelectedPlanDate, int SelectedStoreId, int SelectedClassId)
         {
-            Planning planningModel = new Planning();
-
-            planningModel
-
-            return View(planningModel);
+            PlanningViewModel planningViewModel = new PlanningViewModel(_context, SelectedPlanDate, SelectedStoreId, SelectedClassId);
+            
+            return View("Index", planningViewModel);
         }
     }
 }

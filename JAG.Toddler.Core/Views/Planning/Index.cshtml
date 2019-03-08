@@ -1,14 +1,19 @@
-﻿@model JAG.Toddler.Core.Models.Planning
+﻿@model JAG.Toddler.Core.ViewModels.PlanningViewModel
 
 @{
     ViewData["Title"] = "Planning Screen";
 }
 <h1>Planning</h1>
 
-@Html.TextBoxFor(model => Model.PlanDate, "{0:MM/dd/yyyy}", new { id = "dateSelect" })
-@Html.DropDownListFor(model => Model.SelectedStoreId, new SelectList(Model.StoreList, "StoreId", "StoreName"), "Select Store", new { id = "storeSelect" })
-@Html.DropDownListFor(model => Model.SelectedClassId, new SelectList(Model.ClassList, "ClassId", "Classes"), "Select Class", new { id = "classSelect" })
-<button type="button" id="populate">Populate</button>
+@using (Html.BeginForm("Populate", "Planning", FormMethod.Get))
+{
+    @Html.TextBoxFor(m => Model.SelectedPlanDate, "{0:MM/dd/yyyy}", new { id = "dateSelect"})
+    @Html.DropDownListFor(m => Model.SelectedStoreId, Model.StoreSelect, new { id = "storeSelect"})
+    @Html.DropDownListFor(m => Model.SelectedClassId, Model.ClassSelect, new { id = "classSelect"})
+
+    <button type="submit" id="populate">Populate</button>
+}
+
 
 <script type="text/javascript">
     $(document).ready(function () {
