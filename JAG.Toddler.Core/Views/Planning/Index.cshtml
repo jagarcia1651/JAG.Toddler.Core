@@ -5,6 +5,55 @@
 }
 <h1>Planning</h1>
 
+<table>
+    <tr>
+        <th>Month</th>
+        @for(int i = 11; i >= 0; i--)
+        {
+            DateTime MonthHeader = Model.SelectedPlanDate;
+            <td>
+                @MonthHeader.AddMonths(-i).ToString("MMM")
+            </td>
+        }
+    </tr>
+    <tr>
+        <th>Sales 2 Prior</th>
+        @foreach (var entry in Model.PlanningModel.TwoPriorYear)
+        {
+            <td>
+                @Html.DisplayFor(e => entry.Sales)
+            </td>
+        }
+    </tr>
+    <tr>
+        <th>Sales Prior</th>
+        @foreach (var entry in Model.PlanningModel.PriorYear)
+        {
+            <td>
+                @Html.DisplayFor(e => entry.Sales)
+            </td>
+        }
+    </tr>
+    <tr>
+        <th>Sales Current</th>
+        @foreach (var entry in Model.PlanningModel.CurrentYear)
+        {
+            <td>
+                @Html.DisplayFor(e => entry.Sales)
+            </td>
+        }
+    </tr>
+    <tr>
+        <th>Sales Plan</th>
+        @foreach (var entry in Model.PlanningModel.NextYear)
+        {
+            <td>
+                @Html.DisplayFor(e => entry.Sales)
+            </td>
+        }
+    </tr>
+</table>
+
 @using (Html.BeginForm("Populate", "Planning", FormMethod.Get))
 {
     @Html.TextBoxFor(m => Model.SelectedPlanDate, "{0:MM/dd/yyyy}", new { id = "dateSelect"})

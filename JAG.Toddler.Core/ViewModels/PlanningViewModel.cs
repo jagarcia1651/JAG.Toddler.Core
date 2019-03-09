@@ -60,8 +60,10 @@ namespace JAG.Toddler.Core.ViewModels
                 .ToList();
             SelectedClassId = classId;
             ClassSelect = new SelectList(ClassList, "ClassId", "Classes", SelectedClassId);
+
             PlanningModel = new Planning(context, SelectedPlanDate, SelectedStoreId, SelectedClassId);
         }
+
         public DateTime SelectedPlanDate { get; set; }
 
         IEnumerable<Stores> StoreList { get; set; }
