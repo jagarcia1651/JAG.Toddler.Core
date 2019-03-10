@@ -8,7 +8,8 @@ Possibly after the finalization of Blazor.  The goal of Toddler is to re-create 
 web application operating on a hosted SQL Server.  This will allow collaborative access to the database as well as the ability
 to access and oeprate the application remotely.
 
-##Usage
+Usage
+----------------
 
 The Toddler.Core project will essentially consists of three Single Page Applications each contributing a single track of business logic.
 	*Clients

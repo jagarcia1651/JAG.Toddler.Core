@@ -63,9 +63,18 @@ namespace JAG.Toddler.Core.Controllers
         [HttpGet]
         public async Task<IActionResult> Populate(DateTime SelectedPlanDate, int SelectedStoreId, int SelectedClassId)
         {
-            PlanningViewModel planningViewModel = new PlanningViewModel(_context, SelectedPlanDate, SelectedStoreId, SelectedClassId);
-            
-            return View("Index", planningViewModel);
+            //#TODO
+            //It seems like I should only have to have one return statement after the conditional.
+            if(SelectedStoreId == 0)
+            {
+                PlanningViewModel planningViewModel = new PlanningViewModel(_context);
+                return View("Index", planningViewModel);
+            }
+            else
+            {
+                PlanningViewModel planningViewModel = new PlanningViewModel(_context, SelectedPlanDate, SelectedStoreId, SelectedClassId);
+                return View("Index", planningViewModel);
+            }
         }
     }
 }

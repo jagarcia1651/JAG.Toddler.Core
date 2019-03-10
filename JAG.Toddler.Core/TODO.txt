@@ -4,9 +4,13 @@
 
 		I want to move the jquery to a separate file.
 
-Models: 
+		Input cells need to be tagged and watched.
+		Dynamic cells need to be updated on input.
+
+Models/View Models: 
 
 	Planning:
+		An IMU property should be added to either the model or view model.  It is necessary to calculate client side content.
 
 CDNs:
 

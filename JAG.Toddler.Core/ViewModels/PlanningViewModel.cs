@@ -22,7 +22,8 @@ namespace JAG.Toddler.Core.ViewModels
                 .AsNoTracking()
                 .ToList();
             SelectedStoreId = 0;
-            StoreSelect = new SelectList(StoreList, "StoreId", "StoreName", SelectedStoreId);
+            StoreSelect = new SelectList(StoreList, "StoreId", "StoreName", SelectedStoreId).ToList();
+            StoreSelect.Insert(0, (new SelectListItem { Text = "Select a Store", Value = "0" }));
 
             ClassList = new List<Classifications>();
             SelectedClassId = 0;
@@ -40,7 +41,7 @@ namespace JAG.Toddler.Core.ViewModels
                 .AsNoTracking()
                 .ToList();
             SelectedStoreId = storeId;
-            StoreSelect = new SelectList(StoreList, "StoreId", "StoreName", SelectedStoreId);
+            StoreSelect = new SelectList(StoreList, "StoreId", "StoreName", SelectedStoreId).ToList();
 
             //#TODO
             //Should this search StoreList instead even though I would need to use a loop?
@@ -68,7 +69,7 @@ namespace JAG.Toddler.Core.ViewModels
 
         IEnumerable<Stores> StoreList { get; set; }
         public int SelectedStoreId { get; set; }
-        public SelectList StoreSelect { get; set; }
+        public List<SelectListItem> StoreSelect { get; set; }
 
         IEnumerable<Classifications> ClassList { get; set; }
         public int SelectedClassId { get; set; }
