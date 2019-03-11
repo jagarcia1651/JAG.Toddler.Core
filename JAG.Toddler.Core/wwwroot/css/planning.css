@@ -1,0 +1,49 @@
+﻿
+table {
+    background-color: #8EA3BD;
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+}
+
+th {
+    background-color: #3F3F3F;
+    color: white;
+}
+
+td {
+    background-color: #FFFFFF;
+    text-align: center;
+    font-weight: bold;
+}
+
+.month {
+    background-color: #3F3F3F;
+    color: white;
+    text-align: center;
+}
+
+.hidden{
+    background-color:inherit;
+    text-align:right;
+}
+
+.lastMonth {
+    background-color: #D1EAF0;
+}
+
+.lastMonth-plan {
+    background-color: #FFF200;
+}
+
+.calculated{
+    color: darkslategray;
+}
+
+.plan-input {
+    background-color: #CDDCAF;
+}
+
+.plan-calculated {
+    background-color: #CCC8C2;
+}

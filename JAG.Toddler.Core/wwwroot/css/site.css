@@ -1,4 +1,5 @@
 ﻿table, th, td {
-    border: 1px solid black;
     empty-cells: show;
+    border-spacing: 3px;
+    border-collapse: separate;
 }
