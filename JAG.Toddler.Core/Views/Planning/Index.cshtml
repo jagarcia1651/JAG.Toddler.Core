@@ -3,8 +3,6 @@
 @{
     ViewData["Title"] = "Planning Screen";
 }
-<h1>Planning</h1>
-
 <table>
     <tr>
         <th>Month</th>
@@ -21,43 +19,59 @@
     </tr>
     <tr>
         <th>Sales 2 Prior</th>
-        @foreach (var entry in Model.PlanningModel.TwoPriorYear)
-        {
-            int displaySales = (int)entry.Sales;
-            <td>
-                @displaySales.ToString("n0")
-            </td>
-        }
-    </tr>
-    <tr>
-        <th>Sales Prior</th>
-        @foreach (var entry in Model.PlanningModel.PriorYear)
-        {
-            int displaySales = (int)entry.Sales;
-            <td>
-                @displaySales.ToString("n0")
-            </td>
-        }
-    </tr>
-    <tr>
-        <th>Sales Current</th>
-        @foreach (var entry in Model.PlanningModel.CurrentYear)
-        {
-            var last = Model.PlanningModel.CurrentYear.Last();
-            int displaySales = (int)entry.Sales;
-            if (entry == last)
+        @{
+            int sales2PriorTotal = 0;
+            foreach (var entry in Model.PlanningModel.TwoPriorYear)
             {
-                <td class="lastMonth">
-                    @displaySales.ToString("n0")
-                </td>
-            }
-            else
-            {
+                int displaySales = (int)entry.Sales;
+                sales2PriorTotal += displaySales;
                 <td>
                     @displaySales.ToString("n0")
                 </td>
             }
-
+            <td class="calculated">@sales2PriorTotal.ToString("n0")</td>
+        }
+    </tr>
+    <tr>
+        <th>Sales Prior</th>
+        @{
+            int salesPriorTotal = 0;
+            foreach (var entry in Model.PlanningModel.PriorYear)
+            {
+                int displaySales = (int)entry.Sales;
+                salesPriorTotal += displaySales;
+                <td>
+                    @displaySales.ToString("n0")
+                </td>
+            }
+            <td class="calculated">@salesPriorTotal.ToString("n0")</td>
+        }
+    </tr>
+    <tr>
+        <th>Sales Current</th>
+        @{
+            int salesCurrentTotal = 0;
+            @foreach (var entry in Model.PlanningModel.CurrentYear)
+            {
+                var last = Model.PlanningModel.CurrentYear.Last();
+                int displaySales = (int)entry.Sales;
+                salesCurrentTotal += displaySales;
+                if (entry == last)
+                {
+                    <td class="lastMonth">
+                        @displaySales.ToString("n0")
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @displaySales.ToString("n0")
+                    </td>
+                }
+            }
+            <td class="calculated">@salesCurrentTotal.ToString("n0")</td>
+            float modSalesChangePercent = 0;
+            <td class="plan-input">@modSalesChangePercent.ToString("p1")</td>
         }
     </tr>
     <tr>
@@ -76,26 +90,35 @@
             <td class="calculated lastMonth">
                 @currentChange.ToString("p0")
             </td>
-
+            float percentChangeTotal = (salesCurrentTotal - salesPriorTotal) / (float)salesPriorTotal;
+            <td class="calculated">@percentChangeTotal.ToString("p0")</td>
         }
     </tr>
     <tr>
         @if (Model.PlanningModel.CurrentYear.Any())
         {
             <td class="hidden" colspan="12">LM Sales Plan</td>
+            int displaySales = (int)Model.PlanningModel.CurrentYear.Last().SalesPlan;
             <td class="lastMonth-plan">
-                @Model.PlanningModel.CurrentYear.First().SalesPlan.ToString()
+                @displaySales.ToString("n0")
             </td>
         }
     </tr>
     <tr>
         <th>Sales Plan</th>
-        @foreach (var entry in Model.PlanningModel.NextYear)
-        {
-            int displaySalesPlan = (int)entry.SalesPlan;
-            <td class="plan-input">
-                @displaySalesPlan.ToString("n0")
-            </td>
+        @{
+            int salesPlanTotal = 0;
+            foreach (var entry in Model.PlanningModel.NextYear)
+            {
+                int displaySalesPlan = (int)entry.SalesPlan;
+                salesPlanTotal += displaySalesPlan;
+                <td class="plan-input">
+                    @displaySalesPlan.ToString("n0")
+                </td>
+            }
+            <td class="calculated plan-input">@salesPlanTotal.ToString("n0")</td>
+            float modSalesChange = 0;
+            <td class="plan-input">@modSalesChange.ToString("p1")</td>
         }
     </tr>
     <tr>
@@ -156,7 +179,7 @@
             @for (int i = 1; i < Model.PlanningModel.NextYear.Count(); i++)
             {
                 int stockPlan = (int)(Model.PlanningModel.NextYear.ElementAt(i).StockPlanRatio * Model.PlanningModel.NextYear.ElementAt(i).SalesPlan);
-                <td>
+                <td class="plan-calculated">
                     @stockPlan.ToString("n0")
                 </td>
             }
@@ -184,12 +207,17 @@
     </tr>
     <tr>
         <th>Markdowns Prior Year</th>
-        @foreach (var entry in Model.PlanningModel.PriorYear)
-        {
-            int displayMarkdowns = (int)entry.Markdowns;
-            <td>
-                @displayMarkdowns.ToString("n0")
-            </td>
+        @{
+            int markdownsPriorTotal = 0;
+            foreach (var entry in Model.PlanningModel.PriorYear)
+            {
+                int displayMarkdowns = (int)entry.Markdowns;
+                markdownsPriorTotal += displayMarkdowns;
+                <td>
+                    @displayMarkdowns.ToString("n0")
+                </td>
+            }
+            <td class="calculated">@markdownsPriorTotal.ToString("n0")</td>
         }
     </tr>
     <tr>
@@ -238,10 +266,10 @@
         }
     </tr>
     <tr>
-        @if(Model.PlanningModel.CurrentYear.Any())
+        @if (Model.PlanningModel.CurrentYear.Any())
         {
             <td class="hidden" colspan="12">LM Markdown Plan</td>
-            int markdownPlan = (int)(Model.PlanningModel.CurrentYear.First().MarkdownsPlanRatio * Model.PlanningModel.CurrentYear.First().SalesPlan);
+            int markdownPlan = (int)(Model.PlanningModel.CurrentYear.Last().MarkdownsPlanRatio * Model.PlanningModel.CurrentYear.Last().SalesPlan);
             <td class="lastMonth-plan">
                 @markdownPlan.ToString("n0")
             </td>
@@ -260,17 +288,17 @@
     <tr>
         <th>Markdowns Plan Ratio</th>
         @foreach (var entry in Model.PlanningModel.NextYear)
-         {
+        {
             float displayMarkdownPlanRatio = (float)entry.MarkdownsPlanRatio;
             <td class="plan-input">
                 @displayMarkdownPlanRatio.ToString("n2")
             </td>
-         }
+        }
     </tr>
     <tr>
         <th>Month</th>
         @if (Model.PlanningModel.NextYear.Any())
-         {
+        {
             @for (int i = 12; i > 0; i--)
             {
                 DateTime MonthHeader = Model.SelectedPlanDate;
@@ -278,12 +306,12 @@
                     @MonthHeader.AddMonths(-i).ToString("MMM")
                 </td>
             }
-         }
+        }
     </tr>
     <tr>
         <th>Rec/Retail Month</th>
         @foreach (var entry in Model.PlanningModel.CurrentYear)
-         {
+        {
             var last = Model.PlanningModel.CurrentYear.Last();
             int displayRec = (int)entry.ReceivedAtRetail;
             if (entry == last)
@@ -298,7 +326,7 @@
                     @displayRec.ToString("n0")
                 </td>
             }
-         }
+        }
     </tr>
     <tr>
         <th>Rec/Retail Plan</th>
@@ -436,7 +464,7 @@
                     @displayOnOrder.ToString("n0")
                 }
             </td>
-                }
+        }
         }
     </tr>
     <tr>
@@ -465,9 +493,9 @@
     </tr>
 </table>
 
-<button type="button" id="exit">Exit</button>
 @using (Html.BeginForm("Populate", "Planning", FormMethod.Get))
 {
+    <button type="button" id="exit">Exit</button>
     @Html.TextBoxFor(m => Model.SelectedPlanDate, "{0:MM/dd/yyyy}", new { id = "dateSelect" })
     @Html.DropDownListFor(m => Model.SelectedStoreId, Model.StoreSelect, new { id = "storeSelect" })
     @Html.DropDownListFor(m => Model.SelectedClassId, Model.ClassSelect, new { id = "classSelect" })
@@ -512,7 +540,7 @@
 
         //Prevent submission if class not selected
         $("#classSelect").prop('required', true);
-        
+
         //Adds jqueryUI calendar popup to dateSelect
         $("#dateSelect").datepicker();
     });
