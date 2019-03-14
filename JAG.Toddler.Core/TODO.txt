@@ -1,4 +1,12 @@
-﻿Views:
+﻿Modules:
+	Planning:
+
+	All relevant data for the planning module is being passed from the database to the view.
+	Need to finish implementing dynamic input in the view then pass back updated data to database.
+	Where should data validation take place?  Perhaps several layers.
+	Need to begin implementing repository layer to clean up model and view model construction.
+
+Views:
 
 	Planning:
 
@@ -6,6 +14,8 @@
 
 		Input cells need to be tagged and watched.
 		Dynamic cells need to be updated on input.
+
+		Second form needs to postback updated Model to controller.
 
 Models/View Models: 
 
@@ -15,3 +25,9 @@ Models/View Models:
 CDNs:
 
 	Need to ensure I'm including all libraries I am using in production/development under appropriate environment tags in _layout.
+
+Controllers:
+
+	Planning:
+		
+		Need post hander to passback updated model from planning view.
