@@ -23,7 +23,7 @@ namespace JAG.Toddler.Core.Controllers
         // GET: Planning
         //Parameters: JAGToddlerDatabaseContext{context}
         //Description: Navigates to the Planning view and provides a list of stores to populate dropdown.
-        public async Task<IActionResult> Index()
+        public ViewResult Index()
         {
             PlanningViewModel planningViewModel = new PlanningViewModel(_context);
 
@@ -58,10 +58,10 @@ namespace JAG.Toddler.Core.Controllers
         }
 
         // GET: Planning
-        //Parameters: JAGToddlerDatabaseContext{context}, DateTime{planDate}, int{storeId}, int{classId}
+        //Parameters: DateTime{planDate}, int{storeId}, int{classId}
         //Description: Navigates to the Planning view and provides a list of stores to populate dropdown.
         [HttpGet]
-        public async Task<IActionResult> Populate(DateTime SelectedPlanDate, int SelectedStoreId, int SelectedClassId)
+        public ViewResult Populate(DateTime SelectedPlanDate, int SelectedStoreId, int SelectedClassId)
         {
 
             PlanningViewModel planningViewModel = new PlanningViewModel(_context, SelectedPlanDate, SelectedStoreId, SelectedClassId);
