@@ -47,3 +47,8 @@ td {
 .plan-calculated {
     background-color: #CCC8C2;
 }
+
+.total{
+    text-align:right;
+    font-weight:bold;
+}
