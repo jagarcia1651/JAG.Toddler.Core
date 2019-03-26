@@ -10,6 +10,8 @@ Views:
 
 	Planning:
 
+		Razor needs to be consistently wrapped in table cells OR wrap conditional table cell production.  Currently exists both ways within the view.
+
 		I want to move the jquery to a separate file.
 
 		Input cells need to be tagged and watched.

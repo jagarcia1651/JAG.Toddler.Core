@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using JAG.Toddler.Core.Models.Default;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +28,8 @@ namespace JAG.Toddler.Core.Models
             StoreId = storeId;
             ClassId = classId;
 
+            //#TODO
+            //Break out helper function to retrieve log entries for certain time frames.
             TwoPriorYear = context.LogEntries
                 .Where(l => l.ClassId == ClassId)
                 .Where(l => l.StoreId == StoreId)
@@ -53,6 +54,8 @@ namespace JAG.Toddler.Core.Models
                 .AsNoTracking()
                 .ToList();
 
+            //#TODO
+            //This list should track entities state for forecast updates.
             NextYear = context.LogEntries
                 .Where(l => l.ClassId == ClassId)
                 .Where(l => l.StoreId == StoreId)

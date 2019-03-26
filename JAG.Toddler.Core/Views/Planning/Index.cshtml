@@ -153,21 +153,24 @@
         <td class="hidden">Actual Turns</td>
         @{
             float stockAverage = 0;
-            foreach (var entry in Model.PlanningModel.CurrentYear)
+            @if (Model.PlanningModel.CurrentYear.Any())
             {
-                stockAverage += (int)entry.Stocks;
+                foreach (var entry in Model.PlanningModel.CurrentYear)
+                {
+                    stockAverage += (int)entry.Stocks;
+                }
+                stockAverage += (int)Model.PlanningModel.NextYear.First().Stocks;
+                stockAverage = stockAverage / 13;
+                float actualTurn = salesCurrentTotal / stockAverage;
+                <td class="calculated total">
+                    @actualTurn.ToString("n2")
+                </td>
             }
-            stockAverage += (int)Model.PlanningModel.NextYear.First().Stocks;
-            stockAverage = stockAverage / 13;
-            float actualTurn = salesCurrentTotal / stockAverage;
         }
-            <td class="calculated total">
-                @actualTurn.ToString("n2")
-            </td>
     </tr>
     <tr>
         <td class="hidden">On Hand</td>
-        @{ 
+        @{
             int stockTurnTotal = 0;
             if (Model.PlanningModel.NextYear.Any())
             {
@@ -259,7 +262,7 @@
             <td class="calculated">@ratio.ToString("p1")</td>
         }
         <td class="hidden"></td>
-        @{ 
+        @{
             float percentSalesPriorTotal = markdownsPriorTotal / (float)salesPriorTotal;
         }
         <td class="calculated total">
@@ -310,7 +313,7 @@
             }
         }
         <td class="hidden"></td>
-        @{ 
+        @{
             float percentSalesTotal = markdownsCurrentTotal / (float)salesCurrentTotal;
         }
         <td class="calculated total">
@@ -341,7 +344,7 @@
             }
             <td class="calculated total plan-input">
                 @markdownsPlanTotal.ToString("n0")
-            </td>   
+            </td>
         }
     </tr>
     <tr>
@@ -354,7 +357,7 @@
             </td>
         }
         <td class="hidden"></td>
-        @{ 
+        @{
             float percentSalesPlan = markdownsPlanTotal / (float)salesPlanTotal;
         }
         <td class="calculated total plan-input">
@@ -455,7 +458,7 @@
             @recCostTotal.ToString("n0")
         </td>
     </tr>
-    @{ 
+    @{
         float IMU = (recRetailTotal - recCostTotal) / (float)recRetailTotal;
     }
     <tr>
@@ -465,7 +468,7 @@
             foreach (var entry in Model.PlanningModel.NextYear)
             {
                 var last = Model.PlanningModel.NextYear.Last();
-                int displayRec = (int)(entry.RecAtRetailPlan * (1-IMU));
+                int displayRec = (int)(entry.RecAtRetailPlan * (1 - IMU));
                 recCostPlanTotal += displayRec;
                 if (entry == last)
                 {
@@ -557,7 +560,7 @@
                 <td class="hidden"></td>
                 <td>
                     @{
-                        displayOnOrder = (int)(Model.PlanningModel.PriorYear.ElementAt(10).Ufac1o / (1-IMU));
+                        displayOnOrder = (int)(Model.PlanningModel.PriorYear.ElementAt(10).Ufac1o / (1 - IMU));
                         @displayOnOrder.ToString("n0")
                     }
                 </td>
@@ -568,7 +571,6 @@
     <tr>
         <th>On Order Cost</th>
         @{
-            int onOrderCostTotal = 0;
             if (Model.PlanningModel.CurrentYear.Any())
             {
                 int displayOnOrder;
@@ -834,7 +836,7 @@
         //Prevent submission if class not selected
         $("#classSelect").prop('required', true);
 
-        //Adds jqueryUI calendar popup to dateSelect
+        //Adds jqueryUI calendar popup to dateSelect field
         $("#dateSelect").datepicker();
     });
 </script>
