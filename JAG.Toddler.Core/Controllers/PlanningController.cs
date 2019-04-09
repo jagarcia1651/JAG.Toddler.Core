@@ -59,7 +59,7 @@ namespace JAG.Toddler.Core.Controllers
 
         // GET: Planning
         //Parameters: DateTime{planDate}, int{storeId}, int{classId}
-        //Description: Navigates to the Planning view and provides a list of stores to populate dropdown.
+        //Description: Navigates to the Planning view and populates data based on store and classification selection.
         [HttpGet]
         public ViewResult Populate(DateTime SelectedPlanDate, int SelectedStoreId, int SelectedClassId)
         {
@@ -67,6 +67,34 @@ namespace JAG.Toddler.Core.Controllers
             PlanningViewModel planningViewModel = new PlanningViewModel(_context, SelectedPlanDate, SelectedStoreId, SelectedClassId);
             return View("Index", planningViewModel);
             
+        }
+
+        //POST: Planning
+        //Parameters: planningViewModel
+        //Description: Updates relevant log entries based on planningViewModel criteria.
+        [HttpPost]
+        public ViewResult Save(PlanningViewModel plan)
+        {
+            //Do some validation here.
+
+            PlanningViewModel planningViewModel = new PlanningViewModel(_context, plan.SelectedPlanDate, plan.SelectedStoreId, plan.SelectedClassId);
+
+            int idx = 0;
+            foreach(LogEntries entry in planningViewModel.PlanningModel.NextYear)
+            {
+                entry.SalesPlan = plan.PlanningModel.NextYear.ElementAt(idx).SalesPlan;
+                entry.StockPlanRatio = plan.PlanningModel.NextYear.ElementAt(idx).StockPlanRatio;
+                entry.StockPlan = plan.PlanningModel.NextYear.ElementAt(idx).StockPlan;
+                entry.MarkdownsPlanRatio = plan.PlanningModel.NextYear.ElementAt(idx).MarkdownsPlanRatio;
+                entry.SalesPlan = plan.PlanningModel.NextYear.ElementAt(idx).SalesPlan;
+                entry.RecAtRetailPlan = plan.PlanningModel.NextYear.ElementAt(idx).RecAtRetailPlan;
+                idx++;
+            }
+
+            planningViewModel.PlanningModel.Save();
+            
+
+            return View("Index", planningViewModel);
         }
     }
 }

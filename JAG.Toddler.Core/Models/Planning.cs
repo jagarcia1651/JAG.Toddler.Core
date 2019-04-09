@@ -10,6 +10,8 @@ namespace JAG.Toddler.Core.Models
     {
         public Planning(JAGToddlerDatabaseContext context)
         {
+            _context = context;
+
             PlanDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1, 0, 0, 0);
 
             StoreId = 0;
@@ -23,6 +25,8 @@ namespace JAG.Toddler.Core.Models
 
         public Planning(JAGToddlerDatabaseContext context, DateTime planDate, int storeId, int classId)
         {
+            _context = context;
+
             PlanDate = new DateTime(planDate.Year, planDate.Month, 1, 0, 0, 0);
 
             StoreId = storeId;
@@ -61,10 +65,11 @@ namespace JAG.Toddler.Core.Models
                 .Where(l => l.StoreId == StoreId)
                 .Where(l => l.LogDate >= PlanDate && l.LogDate < PlanDate.AddMonths(12))
                 .OrderBy(l => l.LogDate)
-                .AsNoTracking()
                 .ToList();
 
         }
+
+        JAGToddlerDatabaseContext _context { get; set; }
 
         public DateTime PlanDate { get; set; }
 
@@ -75,5 +80,16 @@ namespace JAG.Toddler.Core.Models
         public IEnumerable<LogEntries> PriorYear { get; set; }
         public IEnumerable<LogEntries> CurrentYear { get; set; }
         public IEnumerable<LogEntries> NextYear { get; set; }
+
+        //This function should extend any IEnumerable to ensure that the arrays align correctly with dates.
+        public void Extend()
+        {
+            
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
     }
 }
